@@ -44,7 +44,7 @@ export function Footer() {
             <span className="text-primary">Next.js</span>
             {" "}&amp;{" "}
             <span className="text-red-500">❤️</span>
-            {" "}by Yash
+            {" "}by Bipanshu
           </p>
 
           <div className="flex gap-4">
@@ -63,7 +63,7 @@ export function Footer() {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Yash Dev. All rights reserved.
+            &copy; {currentYear} Bipanshu Kumar. All rights reserved.
           </p>
         </div>
       </div>

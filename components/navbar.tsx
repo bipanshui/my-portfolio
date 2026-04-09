@@ -54,7 +54,7 @@ export function Navbar() {
             }}
             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
-            Yash Dev
+            Bipanshu Kumar
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">

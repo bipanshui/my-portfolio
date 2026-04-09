@@ -9,7 +9,7 @@ const stats = [
   { label: "Goal", value: "Ship Real Systems" },
 ];
 
-const aboutText = `I'm a Computer Science student from India, building toward a career in DevOps 
+const aboutText = `I'm Bipanshu Kumar, a Computer Science student from India, building toward a career in DevOps 
 Engineering. I work with tools like Docker, AWS, Terraform, GitHub Actions, 
 Ansible, and Python — not just to learn them, but to build things that actually 
 run in the real world. Right now I'm developing projects like an attendance 
@@ -44,8 +44,8 @@ export function About() {
               <div className="absolute inset-0 bg-gradient-to-r from-primary to-cyan-500 rounded-3xl blur-2xl opacity-50" />
               <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl border-4 border-primary/30 overflow-hidden bg-muted">
                 <img
-                  src="https://api.dicebear.com/7.x/initials/svg?seed=YD"
-                  alt="Yash Dev"
+                  src="https://api.dicebear.com/7.x/initials/svg?seed=BK"
+                  alt="Bipanshu Kumar"
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yash Dev | DevOps Engineer",
+  title: "Bipanshu Kumar | DevOps Engineer",
   description: "DevOps Engineer in the making. I automate, deploy, and obsess over infrastructure.",
 };
 
