@@ -1,0 +1,118 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
+import { Menu, Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetClose,
+} from "@/components/ui/sheet";
+
+const navLinks = [
+  { href: "#home", label: "Home" },
+  { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
+];
+
+export function Navbar() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Link
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("#home");
+            }}
+            className="text-xl font-bold text-foreground hover:text-primary transition-colors"
+          >
+            Yash Dev
+          </Link>
+
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <button
+                key={link.href}
+                onClick={() => scrollToSection(link.href)}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
+              >
+                {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+              </button>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="relative"
+              aria-label="Toggle theme"
+            >
+              {!mounted ? (
+                <Moon className="h-5 w-5" />
+              ) : theme === "dark" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setIsOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetContent>
+                <SheetTitle className="mb-6">Menu</SheetTitle>
+                <nav className="flex flex-col gap-4">
+                  {navLinks.map((link) => (
+                    <SheetClose key={link.href} onClick={() => scrollToSection(link.href)}>
+                      <span className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block cursor-pointer">
+                        {link.label}
+                      </span>
+                    </SheetClose>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </div>
+    </motion.header>
+  );
+}
