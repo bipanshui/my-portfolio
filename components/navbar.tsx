@@ -10,15 +10,14 @@ import {
   Sheet,
   SheetContent,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 
 const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/skills", label: "Skills" },
+  { href: "/projects", label: "Projects" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {
@@ -30,13 +29,6 @@ export function Navbar() {
     setMounted(true);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -47,26 +39,22 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("#home");
-            }}
+            href="/"
             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
-            Bipanshu Kr
+            Bipanshu Kumar
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.href}
-                onClick={() => scrollToSection(link.href)}
+                href={link.href}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-              </button>
+              </Link>
             ))}
           </nav>
 
@@ -106,11 +94,14 @@ export function Navbar() {
                 <SheetTitle className="mb-6">Menu</SheetTitle>
                 <nav className="flex flex-col gap-4">
                   {navLinks.map((link) => (
-                    <SheetClose key={link.href} onClick={() => scrollToSection(link.href)}>
-                      <span className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block cursor-pointer">
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors py-2 block cursor-pointer"
+                    >
                         {link.label}
-                      </span>
-                    </SheetClose>
+                    </Link>
                   ))}
                 </nav>
               </SheetContent>

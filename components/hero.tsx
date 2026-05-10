@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import Link from "next/link";
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -73,13 +74,6 @@ export function Hero() {
     return () => timeouts.forEach(clearTimeout);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const handleCtaMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const bounds = event.currentTarget.getBoundingClientRect();
     const offsetX = event.clientX - bounds.left - bounds.width / 2;
@@ -103,6 +97,12 @@ export function Hero() {
     event.currentTarget.style.setProperty("--cta-glow-x", "50%");
     event.currentTarget.style.setProperty("--cta-glow-y", "50%");
   };
+
+  React.useEffect(() => {
+    return () => {
+      trailRef.current?.stop();
+    };
+  }, []);
 
   const loadTrail = React.useCallback(() => {
     if (trailRef.current) {
@@ -230,14 +230,16 @@ export function Hero() {
                 animate={{ scale: ctaHover ? 1.02 : 1 }}
                 transition={{ type: "spring", stiffness: 420, damping: 24, mass: 0.5 }}
               >
-                <Button size="lg" onClick={() => scrollToSection("#projects")}>
-                  View My Work
+                <Button asChild size="lg">
+                  <Link href="/projects">View My Work</Link>
                 </Button>
               </motion.div>
             </div>
-            <Button variant="outline" size="lg">
-              <ArrowDown className="h-4 w-4" />
-              Download Resume
+            <Button asChild variant="outline" size="lg">
+              <Link href="/contact">
+                <ArrowDown className="h-4 w-4" />
+                Contact Me
+              </Link>
             </Button>
           </div>
 
