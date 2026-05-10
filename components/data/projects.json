@@ -1,0 +1,35 @@
+{
+  "title": "Things I've Built",
+  "description": "Real-world projects that solve actual problems",
+  "projects": [
+    {
+      "name": "Attendance System",
+      "description": "Automated attendance tracking system with real-time reporting and backend API integration.",
+      "tags": ["Python", "Docker", "PostgreSQL", "REST API"],
+      "github": "https://github.com",
+      "live": "https://example.com"
+    },
+    {
+      "name": "Infrastructure Automation",
+      "description": "Terraform + Ansible setup to provision and configure cloud infrastructure on AWS.",
+      "tags": ["Terraform", "Ansible", "AWS", "Bash"],
+      "github": "https://github.com",
+      "live": "https://example.com"
+    },
+    {
+      "name": "CI/CD Pipeline Template",
+      "description": "Reusable GitHub Actions workflow for building, testing, and deploying containerized apps.",
+      "tags": ["GitHub Actions", "Docker", "YAML", "DevOps"],
+      "github": "https://github.com",
+      "live": "https://example.com"
+    },
+    {
+      "name": "Portfolio Website",
+      "description": "Coming soon — currently in development.",
+      "tags": ["Next.js", "TypeScript", "WIP"],
+      "github": "https://github.com",
+      "live": "#",
+      "isWip": true
+    }
+  ]
+}

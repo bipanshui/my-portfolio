@@ -4,40 +4,20 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
+import projectsData from "./data/projects.json";
 
-const projects = [
-  {
-    name: "Attendance System",
-    description: "Automated attendance tracking system with real-time reporting and backend API integration.",
-    tags: ["Python", "Docker", "PostgreSQL", "REST API"],
-    github: "https://github.com",
-    live: "https://example.com",
-  },
-  {
-    name: "Infrastructure Automation",
-    description: "Terraform + Ansible setup to provision and configure cloud infrastructure on AWS.",
-    tags: ["Terraform", "Ansible", "AWS", "Bash"],
-    github: "https://github.com",
-    live: "https://example.com",
-  },
-  {
-    name: "CI/CD Pipeline Template",
-    description: "Reusable GitHub Actions workflow for building, testing, and deploying containerized apps.",
-    tags: ["GitHub Actions", "Docker", "YAML", "DevOps"],
-    github: "https://github.com",
-    live: "https://example.com",
-  },
-  {
-    name: "Portfolio Website",
-    description: "Coming soon — currently in development.",
-    tags: ["Next.js", "TypeScript", "WIP"],
-    github: "https://github.com",
-    live: "#",
-    isWip: true,
-  },
-];
+type Project = {
+  name: string;
+  description: string;
+  tags: string[];
+  github: string;
+  live: string;
+  isWip?: boolean;
+};
 
 export function Projects() {
+  const projects = projectsData.projects as Project[];
+
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <motion.div
@@ -46,9 +26,9 @@ export function Projects() {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Things I&apos;ve Built</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">{projectsData.title}</h2>
         <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          Real-world projects that solve actual problems
+          {projectsData.description}
         </p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">

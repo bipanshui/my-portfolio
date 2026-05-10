@@ -1,0 +1,18 @@
+{
+  "title": "Let's Connect",
+  "description": "I'm open to internships, collaborations, and DevOps opportunities.",
+  "socialLinks": [
+    {
+      "name": "GitHub",
+      "href": "https://github.com"
+    },
+    {
+      "name": "LinkedIn",
+      "href": "https://linkedin.com"
+    },
+    {
+      "name": "Email",
+      "href": "mailto:yash@example.com"
+    }
+  ]
+}

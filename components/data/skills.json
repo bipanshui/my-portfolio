@@ -1,0 +1,26 @@
+{
+  "title": "My Toolbox",
+  "description": "Technologies I use to build reliable, automated systems",
+  "categories": [
+    {
+      "title": "DevOps & Cloud",
+      "skills": ["Docker", "Kubernetes (learning)", "AWS", "Terraform", "Ansible", "GitHub Actions", "Linux"],
+      "color": "primary"
+    },
+    {
+      "title": "Languages",
+      "skills": ["Python", "Bash", "YAML", "HCL"],
+      "color": "cyan"
+    },
+    {
+      "title": "Backend",
+      "skills": ["REST APIs", "PostgreSQL", "Redis (basic)"],
+      "color": "green"
+    },
+    {
+      "title": "Tools",
+      "skills": ["Git", "VS Code", "Nginx", "CI/CD Pipelines"],
+      "color": "yellow"
+    }
+  ]
+}

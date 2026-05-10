@@ -1,25 +1,9 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-
-const stats = [
-  { label: "Projects Built", value: "5+" },
-  { label: "Cloud Tools", value: "3+" },
-  { label: "Goal", value: "Ship Real Systems" },
-];
-
-const aboutText = `I'm Bipanshu Kumar, a Computer Science student from India, building toward a career in DevOps 
-Engineering. I work with tools like Docker, AWS, Terraform, GitHub Actions, 
-Ansible, and Python — not just to learn them, but to build things that actually 
-run in the real world. Right now I'm developing projects like an attendance 
-system and various automation tools that solve real problems. I'm drawn to 
-backend systems and infrastructure because I like understanding how things work 
-under the hood — how code moves from a local machine to a live server, how 
-systems scale, and how failures get caught before users ever see them. My 
-approach is simple: build, break, fix, repeat. Over the next year, my goal is 
-to be genuinely job-ready — not just resume-ready — by shipping systems that 
-are reliable, automated, and built to last.`;
+import aboutData from "./data/about.json";
 
 export function About() {
   return (
@@ -30,7 +14,7 @@ export function About() {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">About Me</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">{aboutData.title}</h2>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <motion.div
@@ -43,10 +27,13 @@ export function About() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-primary to-cyan-500 rounded-3xl blur-2xl opacity-50" />
               <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-3xl border-4 border-primary/30 overflow-hidden bg-muted">
-                <img
-                  src="https://api.dicebear.com/7.x/initials/svg?seed=BK"
-                  alt="Bipanshu Kumar"
-                  className="w-full h-full object-cover"
+                <Image
+                  src={aboutData.image.src}
+                  alt={aboutData.image.alt}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 768px) 12rem, 16rem"
+                  className="object-cover"
                 />
               </div>
             </div>
@@ -60,7 +47,7 @@ export function About() {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
-                {aboutText}
+                {aboutData.bio}
               </p>
             </motion.div>
 
@@ -71,7 +58,7 @@ export function About() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="grid sm:grid-cols-3 gap-4 pt-4"
             >
-              {stats.map((stat, index) => (
+              {aboutData.stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}

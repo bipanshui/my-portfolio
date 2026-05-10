@@ -3,33 +3,17 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
+import skillsData from "./data/skills.json";
 
 type BadgeVariant = "default" | "secondary" | "success" | "warning" | "destructive" | "outline" | "cyan" | "primary" | "green" | "yellow";
 
-const skillCategories: { title: string; skills: string[]; color: BadgeVariant }[] = [
-  {
-    title: "DevOps & Cloud",
-    skills: ["Docker", "Kubernetes (learning)", "AWS", "Terraform", "Ansible", "GitHub Actions", "Linux"],
-    color: "primary",
-  },
-  {
-    title: "Languages",
-    skills: ["Python", "Bash", "YAML", "HCL"],
-    color: "cyan",
-  },
-  {
-    title: "Backend",
-    skills: ["REST APIs", "PostgreSQL", "Redis (basic)"],
-    color: "green",
-  },
-  {
-    title: "Tools",
-    skills: ["Git", "VS Code", "Nginx", "CI/CD Pipelines"],
-    color: "yellow",
-  },
-];
-
 export function Skills() {
+  const skillCategories = skillsData.categories as Array<{
+    title: string;
+    skills: string[];
+    color: BadgeVariant;
+  }>;
+
   return (
     <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <motion.div
@@ -38,9 +22,9 @@ export function Skills() {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">My Toolbox</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">{skillsData.title}</h2>
         <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          Technologies I use to build reliable, automated systems
+          {skillsData.description}
         </p>
 
         <div className="grid md:grid-cols-2 gap-8">
