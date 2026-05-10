@@ -24,19 +24,6 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #3B82F6;
-    --primary-foreground: #ffffff;
-    --muted: #18181b;
-    --muted-foreground: #a1a1aa;
-    --border: #27272a;
-    --accent: #09090b;
-  }
-}
-
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
@@ -56,4 +43,134 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-120%);
+  }
+  100% {
+    transform: translateY(120%);
+  }
+}
+
+@keyframes grid-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-48px, -48px, 0);
+  }
+}
+
+@keyframes holo-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes text-glitch {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(1px, -1px, 0);
+  }
+  40% {
+    transform: translate3d(-1px, 1px, 0);
+  }
+  60% {
+    transform: translate3d(1px, 1px, 0);
+  }
+  80% {
+    transform: translate3d(-1px, -1px, 0);
+  }
+}
+
+.sci-grid {
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
+  animation: grid-drift 22s linear infinite;
+}
+
+.sci-scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(34, 211, 238, 0.12),
+    transparent
+  );
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+}
+
+.sci-holo {
+  position: relative;
+}
+
+.sci-holo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.16), rgba(59, 130, 246, 0.08), transparent 65%);
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+
+.sci-holo:hover::before {
+  opacity: 1;
+}
+
+.sci-pulse {
+  animation: holo-pulse 4.5s ease-in-out infinite;
+}
+
+.sci-glitch {
+  position: relative;
+  display: inline-block;
+  animation: text-glitch 5s infinite;
+}
+
+.sci-glitch::before,
+.sci-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sci-glitch::before {
+  transform: translate(-1px, 0);
+  color: rgba(34, 211, 238, 0.8);
+  clip-path: inset(0 0 55% 0);
+  opacity: 0.6;
+}
+
+.sci-glitch::after {
+  transform: translate(1px, 0);
+  color: rgba(59, 130, 246, 0.7);
+  clip-path: inset(45% 0 0 0);
+  opacity: 0.55;
+}
+
+.cta-trail {
+  pointer-events: none;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.4), 0 0 28px rgba(59, 130, 246, 0.22);
+  filter: saturate(1.2);
 }

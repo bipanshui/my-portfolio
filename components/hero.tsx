@@ -1,33 +1,43 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const roles = ["DevOps Engineer", "Cloud Enthusiast", "Automation Builder"];
 
 const terminalLines = [
-  { text: "$ docker build -t myapp .", delay: 0 },
-  { text: "Sending build context to Docker daemon  2.5MB", delay: 800 },
-  { text: "Step 1/5 : FROM node:20-alpine", delay: 1200 },
-  { text: "Step 5/5 : CMD [\"node\", \"server.js\"]", delay: 1800 },
-  { text: "Successfully built abc123", delay: 2400 },
-  { text: "Successfully tagged myapp:latest", delay: 3000 },
-  { text: "", delay: 3500 },
-  { text: "$ terraform apply", delay: 4000 },
-  { text: "Terraform used the following providers:", delay: 4600 },
-  { text: "  aws: hashicorp/aws:4.0.0", delay: 5000 },
-  { text: "Apply complete! Resources: 2 added, 0 changed, 0 destroyed.", delay: 5600 },
-  { text: "", delay: 6200 },
-  { text: "$ echo \"Let's build something.\"", delay: 6800 },
-  { text: "Let's build something.", delay: 7400 },
+  { text: "[boot] initializing infrastructure shell...", delay: 0 },
+  { text: "[boot] power grid stable", delay: 650 },
+  { text: "[boot] telemetry sync complete", delay: 1200 },
+  { text: "$ docker build -t myapp .", delay: 1800 },
+  { text: "Sending build context to Docker daemon  2.5MB", delay: 2500 },
+  { text: "Step 1/5 : FROM node:20-alpine", delay: 3000 },
+  { text: "Step 5/5 : CMD [\"node\", \"server.js\"]", delay: 3600 },
+  { text: "Successfully built abc123", delay: 4200 },
+  { text: "Successfully tagged myapp:latest", delay: 4700 },
+  { text: "", delay: 5200 },
+  { text: "$ terraform apply", delay: 5800 },
+  { text: "Terraform used the following providers:", delay: 6500 },
+  { text: "  aws: hashicorp/aws:4.0.0", delay: 7050 },
+  { text: "Apply complete! Resources: 2 added, 0 changed, 0 destroyed.", delay: 7700 },
+  { text: "", delay: 8300 },
+  { text: "$ echo \"Let's build something.\"", delay: 8900 },
+  { text: "Let's build something.", delay: 9500 },
 ];
 
 export function Hero() {
   const [currentRole, setCurrentRole] = React.useState(0);
   const [displayedText, setDisplayedText] = React.useState("");
   const [visibleLines, setVisibleLines] = React.useState<number[]>([]);
+  const ctaX = useMotionValue(0);
+  const ctaY = useMotionValue(0);
+  const springX = useSpring(ctaX, { stiffness: 420, damping: 28, mass: 0.5 });
+  const springY = useSpring(ctaY, { stiffness: 420, damping: 28, mass: 0.5 });
+  const [ctaHover, setCtaHover] = React.useState(false);
+  const trailRef = React.useRef<{ start: () => void; stop: () => void } | null>(null);
+  const trailLoadRef = React.useRef<Promise<void> | null>(null);
 
   React.useEffect(() => {
     const roleInterval = setInterval(() => {
@@ -70,15 +80,88 @@ export function Hero() {
     }
   };
 
+  const handleCtaMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const offsetX = event.clientX - bounds.left - bounds.width / 2;
+    const offsetY = event.clientY - bounds.top - bounds.height / 2;
+
+    ctaX.set(Math.max(-10, Math.min(10, offsetX * 0.12)));
+    ctaY.set(Math.max(-10, Math.min(10, offsetY * 0.12)));
+    event.currentTarget.style.setProperty(
+      "--cta-glow-x",
+      `${((event.clientX - bounds.left) / bounds.width) * 100}%`
+    );
+    event.currentTarget.style.setProperty(
+      "--cta-glow-y",
+      `${((event.clientY - bounds.top) / bounds.height) * 100}%`
+    );
+  };
+
+  const resetCta = (event: React.MouseEvent<HTMLDivElement>) => {
+    ctaX.set(0);
+    ctaY.set(0);
+    event.currentTarget.style.setProperty("--cta-glow-x", "50%");
+    event.currentTarget.style.setProperty("--cta-glow-y", "50%");
+  };
+
+  const loadTrail = React.useCallback(() => {
+    if (trailRef.current) {
+      return Promise.resolve();
+    }
+
+    if (!trailLoadRef.current) {
+      trailLoadRef.current = import("mouse-trail-effect").then((module) => {
+        const createMouseTrailEffect = module.default ?? module;
+        trailRef.current = createMouseTrailEffect({
+          trailLength: 8,
+          trailSize: 14,
+          trailDuration: 420,
+          colorFormat: "rgb",
+          colorCount: 2,
+          trailEffect: "gradient",
+          trailShape: "circle",
+          customTrailClass: "cta-trail",
+          zIndex: 60,
+        });
+      });
+    }
+
+    return trailLoadRef.current;
+  }, []);
+
+  const startTrail = React.useCallback(() => {
+    void loadTrail().then(() => {
+      trailRef.current?.start();
+    });
+  }, [loadTrail]);
+
+  const stopTrail = React.useCallback(() => {
+    trailRef.current?.stop();
+  }, []);
+
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sci-scanline"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
+      <div className="absolute inset-0 sci-grid opacity-50" />
       
-      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+      <motion.div
+        aria-hidden="true"
+        className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl sci-pulse"
+      />
+      <motion.div
+        aria-hidden="true"
+        className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl sci-pulse"
+        style={{ animationDelay: "-2s" }}
+      />
+      <motion.div
+        aria-hidden="true"
+        className="absolute top-1/2 left-1/2 w-40 h-40 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-400/20 blur-sm"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.25, 0.45, 0.25] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
         <motion.div
@@ -97,9 +180,11 @@ export function Hero() {
               Hello, I&apos;m Bipanshu
             </motion.p>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-              Building Systems
+              <span className="block">Building Systems</span>
               <br />
-              <span className="text-primary">That Scale.</span>
+              <span className="text-primary sci-glitch" data-text="That Scale.">
+                That Scale.
+              </span>
             </h1>
           </div>
 
@@ -114,9 +199,42 @@ export function Hero() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Button size="lg" onClick={() => scrollToSection("#projects")}>
-              View My Work
-            </Button>
+            <div
+              className="relative inline-flex"
+              onMouseEnter={() => {
+                setCtaHover(true);
+                startTrail();
+              }}
+              onMouseLeave={(event) => {
+                setCtaHover(false);
+                resetCta(event);
+                stopTrail();
+              }}
+              onMouseMove={handleCtaMove}
+              style={
+                {
+                  "--cta-x": "0px",
+                  "--cta-y": "0px",
+                  "--cta-glow-x": "50%",
+                  "--cta-glow-y": "50%",
+                } as React.CSSProperties
+              }
+            >
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-4 rounded-2xl bg-[radial-gradient(circle_at_var(--cta-glow-x)_var(--cta-glow-y),rgba(34,211,238,0.32),transparent_60%)] blur-xl transition-opacity duration-200"
+                style={{ opacity: ctaHover ? 1 : 0 }}
+              />
+              <motion.div
+                style={{ x: springX, y: springY, scale: ctaHover ? 1.02 : 1 }}
+                animate={{ scale: ctaHover ? 1.02 : 1 }}
+                transition={{ type: "spring", stiffness: 420, damping: 24, mass: 0.5 }}
+              >
+                <Button size="lg" onClick={() => scrollToSection("#projects")}>
+                  View My Work
+                </Button>
+              </motion.div>
+            </div>
             <Button variant="outline" size="lg">
               <ArrowDown className="h-4 w-4" />
               Download Resume
@@ -161,7 +279,7 @@ export function Hero() {
               <div className="w-3 h-3 rounded-full bg-red-500" />
               <div className="w-3 h-3 rounded-full bg-yellow-500" />
               <div className="w-3 h-3 rounded-full bg-green-500" />
-              <span className="ml-2 text-xs text-muted-foreground">terminal</span>
+              <span className="ml-2 text-xs text-muted-foreground">neural terminal</span>
             </div>
             <div className="p-4 font-mono text-sm space-y-1 min-h-[280px]">
               {terminalLines.map((line, index) => (

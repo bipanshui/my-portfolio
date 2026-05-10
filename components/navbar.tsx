@@ -23,7 +23,7 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -54,7 +54,7 @@ export function Navbar() {
             }}
             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
-            Bipanshu Kumar
+            Bipanshu Kr
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -74,17 +74,22 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="relative"
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              className="relative overflow-hidden"
               aria-label="Toggle theme"
             >
-              {!mounted ? (
-                <Moon className="h-5 w-5" />
-              ) : theme === "dark" ? (
-                <Moon className="h-5 w-5" />
-              ) : (
-                <Sun className="h-5 w-5" />
-              )}
+              <span className="relative h-5 w-5">
+                <Moon
+                  className={`absolute inset-0 h-5 w-5 transition-all duration-300 ${
+                    !mounted || resolvedTheme === "dark" ? "scale-100 rotate-0 opacity-100" : "scale-0 rotate-90 opacity-0"
+                  }`}
+                />
+                <Sun
+                  className={`absolute inset-0 h-5 w-5 transition-all duration-300 ${
+                    mounted && resolvedTheme !== "dark" ? "scale-100 rotate-0 opacity-100" : "scale-0 -rotate-90 opacity-0"
+                  }`}
+                />
+              </span>
             </Button>
 
             <Button

@@ -39,10 +39,12 @@ export function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -4 }}
-              className="group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300"
+              whileHover={{ y: -6, scale: 1.01 }}
+              className="group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 sci-holo overflow-hidden"
             >
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/0 to-cyan-500/0 opacity-0 group-hover:opacity-5 transition-opacity" />
+              <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top_right,_rgba(34,211,238,0.16),_transparent_45%),linear-gradient(135deg,_rgba(59,130,246,0.08),_transparent_45%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute right-4 top-4 h-2.5 w-2.5 rounded-full bg-cyan-400/70 shadow-[0_0_16px_rgba(34,211,238,0.75)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
               <div className="relative space-y-4">
                 <div className="flex items-start justify-between">
