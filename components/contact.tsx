@@ -28,10 +28,36 @@ export function Contact() {
     email: "",
     message: "",
   });
+  const emailLink = contactData.socialLinks.find((link) => link.name === "Email");
+  const recipient =
+    contactData.emailRecipient ??
+    (emailLink?.href.startsWith("mailto:") ? emailLink.href.slice("mailto:".length) : "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    if (!recipient) {
+      return;
+    }
+
+    const subject = `Portfolio inquiry from ${formData.name || "Anonymous"}`;
+    const body = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      "",
+      "Message:",
+      formData.message,
+    ].join("\n");
+
+    const gmailUrl = new URL("https://mail.google.com/mail/");
+    gmailUrl.searchParams.set("view", "cm");
+    gmailUrl.searchParams.set("fs", "1");
+    gmailUrl.searchParams.set("tf", "cm");
+    gmailUrl.searchParams.set("to", recipient);
+    gmailUrl.searchParams.set("su", subject);
+    gmailUrl.searchParams.set("body", body);
+
+    window.location.assign(gmailUrl.toString());
   };
 
   return (
@@ -108,7 +134,7 @@ export function Contact() {
           </div>
           <Button type="submit" size="lg" className="w-full sm:w-auto">
             <Send className="h-4 w-4" />
-            Send Message
+            Send Email
           </Button>
         </form>
       </motion.div>

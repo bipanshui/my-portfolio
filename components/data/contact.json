@@ -1,18 +1,19 @@
 {
   "title": "Let's Connect",
   "description": "I'm open to internships, collaborations, and DevOps opportunities.",
+  "emailRecipient": "contact.bipanshu@gmail.com",
   "socialLinks": [
     {
       "name": "GitHub",
-      "href": "https://github.com"
+      "href": "https://github.com/bipanshui"
     },
     {
       "name": "LinkedIn",
-      "href": "https://linkedin.com"
+      "href": "https://www.linkedin.com/in/bipanshu-kumar-658729309/"
     },
     {
       "name": "Email",
-      "href": "mailto:yash@example.com"
+      "href": "mailto:contact.bipanshu@gmail.com"
     }
   ]
 }
